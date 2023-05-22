@@ -1,0 +1,6 @@
+{
+  "cpu": {
+    "fqbn": "versioduo:samd:itsybitsy",
+    "name": "V2 pedal"
+  }
+}
