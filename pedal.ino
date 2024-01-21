@@ -107,7 +107,7 @@ private:
 
   void exportSettings(JsonArray json) override {
     {
-      JsonObject setting = json.createNestedObject();
+      JsonObject setting = json.add<JsonObject>();
       setting["type"]    = "number";
       setting["title"]   = "MIDI";
 
@@ -119,19 +119,19 @@ private:
     }
 
     {
-      JsonObject setting = json.createNestedObject();
+      JsonObject setting = json.add<JsonObject>();
       setting["type"]    = "controller";
       setting["title"]   = "Pedal";
       setting["path"]    = "pedal/controller";
     }
     {
-      JsonObject setting = json.createNestedObject();
+      JsonObject setting = json.add<JsonObject>();
       setting["type"]    = "number";
       setting["label"]   = "From";
       setting["path"]    = "pedal/from";
     }
     {
-      JsonObject setting = json.createNestedObject();
+      JsonObject setting = json.add<JsonObject>();
       setting["type"]    = "number";
       setting["label"]   = "To";
       setting["path"]    = "pedal/to";
@@ -187,13 +187,13 @@ private:
   void exportConfiguration(JsonObject json) override {
     {
       json["#midi"]        = "The MIDI settings";
-      JsonObject jsonMidi  = json.createNestedObject("midi");
+      JsonObject jsonMidi  = json["midi"].to<JsonObject>();
       jsonMidi["#channel"] = "The channel to send notes and control values to";
       jsonMidi["channel"]  = config.channel + 1;
     }
 
     {
-      JsonObject jsonPedal     = json.createNestedObject("pedal");
+      JsonObject jsonPedal     = json["pedal"].to<JsonObject>();
       jsonPedal["#controller"] = "The MIDI The MIDI controller number and value range";
       jsonPedal["controller"]  = config.pedal.controller;
       jsonPedal["from"]        = config.pedal.from;
@@ -204,8 +204,8 @@ private:
   void exportOutput(JsonObject json) override {
     json["channel"] = config.channel;
 
-    JsonArray jsonControllers = json.createNestedArray("controllers");
-    JsonObject jsonController = jsonControllers.createNestedObject();
+    JsonArray jsonControllers = json["controllers"].to<JsonArray>();
+    JsonObject jsonController = jsonControllers.add<JsonObject>();
     jsonController["name"]    = "Pedal";
     jsonController["number"]  = config.pedal.controller;
     jsonController["value"]   = _step;
